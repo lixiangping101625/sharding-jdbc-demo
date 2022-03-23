@@ -1,6 +1,6 @@
 # 分库分表说明
 #####  当公司业务量急剧上升后，数据库会达到性能瓶颈。对数据库一味纵向升级很难满足业务场景！
-与对单节点数据库升级相比更建议使用分库分表的方案。目前常用的分科分表中间件有MyCat和Sharding-JDBC。
+与对单节点数据库升级相比更建议使用分库分表的方案。目前常用的分库分表中间件有MyCat和Sharding-JDBC。
 本项目使用Sharding-JDBC，究其原因是Sharding-JDBC更加轻量，通俗的讲对非DBA人员更加友好：你只需要根据项目
 的选型，选择Sharding-JDBC对应的配置方式（ShardingSphere-JDBC 可以通过 Java，YAML，Spring 命名空间和
 Spring Boot Starter 这 4 种方式进行配置，开发者可根据场景选择适合的配置方式。 详情请参见用户手册：
