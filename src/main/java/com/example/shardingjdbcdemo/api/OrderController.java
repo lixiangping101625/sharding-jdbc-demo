@@ -36,7 +36,7 @@ public class OrderController {
     }
 
     /**
-     * 查询订单详情
+     * 查询订单详情（注意：参与分片（分库分表）的字段必须都参与查询，才能唯一确定一条数据）
      * @param orderId 订单id
      * @param userId 用户id
      * @return
