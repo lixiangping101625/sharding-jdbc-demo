@@ -61,9 +61,9 @@
             如不需要example类添加下面四个属性
             enableCountByExample="false" enableDeleteByExample="false"
             enableSelectByExample="false" enableUpdateByExample="false"></table>-->
-        <table schema="shard_order"
-               tableName="t_order_0"
-               domainObjectName="Order"
+        <table schema=""
+               tableName="gender_info"
+               domainObjectName="GenderInfo"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"

@@ -43,41 +43,59 @@
     
 ### ——————————————————————————    
 ### Spring boot starter方式配置Sharding-jdbc说明    
-#### 生命ShardingSphere的数据源
-spring.shardingsphere.datasource.names=ds0,ds1
-### 配置第 1 个数据源
-spring.shardingsphere.datasource.ds0.type=com.zaxxer.hikari.HikariDataSource
-spring.shardingsphere.datasource.ds0.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.shardingsphere.datasource.ds0.jdbc-url=jdbc:mysql://localhost:3307/shard_order
-spring.shardingsphere.datasource.ds0.username=root
-spring.shardingsphere.datasource.ds0.password=123456
-### 配置第 2 个数据源
-spring.shardingsphere.datasource.ds1.type=com.zaxxer.hikari.HikariDataSource
-spring.shardingsphere.datasource.ds1.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.shardingsphere.datasource.ds1.jdbc-url=jdbc:mysql://120.27.203.113:3306/sharding_order
-spring.shardingsphere.datasource.ds1.username=root
-spring.shardingsphere.datasource.ds1.password=yuanban_mysql
-### 分库规则（其实就是拼接实际节点）
-spring.shardingsphere.rules.sharding.tables.t_order.actual-data-nodes=ds$->{0..1}.t_order_$->{0..1}
-### 分库策略（这里采用单分片键）
-##### #数据库分片字段为`id`
-spring.shardingsphere.rules.sharding.tables.t_order.database-strategy.standard.sharding-column=id
-##### #数据库分片算法名称（自定义）
-spring.shardingsphere.rules.sharding.tables.t_order.database-strategy.standard.sharding-algorithm-name=database-inline
+    #### 生命ShardingSphere的数据源
+    spring.shardingsphere.datasource.names=ds0,ds1
+    ### 配置第 1 个数据源
+    spring.shardingsphere.datasource.ds0.type=com.zaxxer.hikari.HikariDataSource
+    spring.shardingsphere.datasource.ds0.driver-class-name=com.mysql.cj.jdbc.Driver
+    spring.shardingsphere.datasource.ds0.jdbc-url=jdbc:mysql://localhost:3307/shard_order
+    spring.shardingsphere.datasource.ds0.username=root
+    spring.shardingsphere.datasource.ds0.password=123456
+    ### 配置第 2 个数据源
+    spring.shardingsphere.datasource.ds1.type=com.zaxxer.hikari.HikariDataSource
+    spring.shardingsphere.datasource.ds1.driver-class-name=com.mysql.cj.jdbc.Driver
+    spring.shardingsphere.datasource.ds1.jdbc-url=jdbc:mysql://120.27.203.113:3306/sharding_order
+    spring.shardingsphere.datasource.ds1.username=root
+    spring.shardingsphere.datasource.ds1.password=yuanban_mysql
+    ### 分库规则（其实就是拼接实际节点）
+    spring.shardingsphere.rules.sharding.tables.t_order.actual-data-nodes=ds$->{0..1}.t_order_$->{0..1}
+    ### 分库策略（这里采用单分片键）
+    ##### #数据库分片字段为`id`
+    spring.shardingsphere.rules.sharding.tables.t_order.database-strategy.standard.sharding-column=id
+    ##### #数据库分片算法名称（自定义）
+    spring.shardingsphere.rules.sharding.tables.t_order.database-strategy.standard.sharding-algorithm-name=database-inline
+    
+    ####分表策略，同分库策略
+    ##### #数据表分片算字段为`user_id`
+    spring.shardingsphere.rules.sharding.tables.t_order.table-strategy.standard.sharding-column=user_id
+    ##### #数据表分片算法名称（自定义）
+    spring.shardingsphere.rules.sharding.tables.t_order.table-strategy.standard.sharding-algorithm-name=table-inline
+    
+    ##### 分片算法配置
+    ##### #分库选择`行表达式分片算法`
+    spring.shardingsphere.rules.sharding.sharding-algorithms.database-inline.type=INLINE
+    ##### #分库规则：根据`id`对`2`取模：值为0到`ds0`库，值为1到`ds1`库
+    spring.shardingsphere.rules.sharding.sharding-algorithms.database-inline.props.algorithm-expression=ds$->{id % 2}
+    ##### #分表页选择`行表达式分片算法`
+    spring.shardingsphere.rules.sharding.sharding-algorithms.table-inline.type=INLINE
+    ##### #分表规则：根据`user_id`对`2`取模：值为0到`t_order_0`表，值为1到`t_order_1`表
+    spring.shardingsphere.rules.sharding.sharding-algorithms.table-inline.props.algorithm-expression=t_order_$->{user_id % 2}
+    
+    
+    ## ————————————————————————————————————————————————————————————————
+    ##### 广播表（MyCat中称之为全局表）：https://shardingsphere.apache.org/document/current/cn/features/sharding/concept/table/#广播表
+    ##### 广播表（MyCat中称之为全局表）：指所有的分片数据源中都存在的表，表结构及其数据在每个数据库中均完全一致。
+    #####            适用于数据量不大且需要与海量数据的表进行关联查询的场景，例如：字典表。
+    spring.shardingsphere.rules.sharding.broadcast-tables=gender_info
 
-####分表策略，同分库策略
-##### #数据表分片算字段为`user_id`
-spring.shardingsphere.rules.sharding.tables.t_order.table-strategy.standard.sharding-column=user_id
-##### #数据表分片算法名称（自定义）
-spring.shardingsphere.rules.sharding.tables.t_order.table-strategy.standard.sharding-algorithm-name=table-inline
-
-##### 分片算法配置
-##### #分库选择`行表达式分片算法`
-spring.shardingsphere.rules.sharding.sharding-algorithms.database-inline.type=INLINE
-##### #分库规则：根据`id`对`2`取模：值为0到`ds0`库，值为1到`ds1`库
-spring.shardingsphere.rules.sharding.sharding-algorithms.database-inline.props.algorithm-expression=ds$->{id % 2}
-##### #分表页选择`行表达式分片算法`
-spring.shardingsphere.rules.sharding.sharding-algorithms.table-inline.type=INLINE
-##### #分表规则：根据`user_id`对`2`取模：值为0到`t_order_0`表，值为1到`t_order_1`表
-spring.shardingsphere.rules.sharding.sharding-algorithms.table-inline.props.algorithm-expression=t_order_$->{user_id % 2}
-
+    广播表测试：新增时所有分库的广播表都会新增记录
+    2022-03-23 20:45:48.749  INFO 41936 --- [nio-8080-exec-4] ShardingSphere-SQL                       : Logic SQL: INSERT INTO gender_info  ( id,code,description ) VALUES( ?,?,? )
+    2022-03-23 20:45:48.749  INFO 41936 --- [nio-8080-exec-4] ShardingSphere-SQL                       : SQLStatement: MySQLInsertStatement(setAssignment=Optional.empty, onDuplicateKeyColumns=Optional.empty)
+    2022-03-23 20:45:48.749  INFO 41936 --- [nio-8080-exec-4] ShardingSphere-SQL                       : Actual SQL: ds0 ::: INSERT INTO gender_info  ( id,code,description ) VALUES(?, ?, ?) ::: [22, MAN, 男]
+    2022-03-23 20:45:48.749  INFO 41936 --- [nio-8080-exec-4] ShardingSphere-SQL                       : Actual SQL: ds1 ::: INSERT INTO gender_info  ( id,code,description ) VALUES(?, ?, ?) ::: [22, MAN, 男]
+    广播表测试：查询时可以看到只会查询一次，而不是从查询出多个
+    2022-03-23 20:48:59.444  INFO 36604 --- [nio-8080-exec-1] ShardingSphere-SQL                       : Logic SQL: SELECT id,code,description  FROM gender_info  WHERE  id = ?
+    2022-03-23 20:48:59.445  INFO 36604 --- [nio-8080-exec-1] ShardingSphere-SQL                       : SQLStatement: MySQLSelectStatement(table=Optional.empty, limit=Optional.empty, lock=Optional.empty, window=Optional.empty)
+    2022-03-23 20:48:59.445  INFO 36604 --- [nio-8080-exec-1] ShardingSphere-SQL                       : Actual SQL: ds0 ::: SELECT id,code,description  FROM gender_info  WHERE  id = ? ::: [22]
+    查询到记录数：1
+    
