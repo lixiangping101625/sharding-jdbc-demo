@@ -1,12 +1,12 @@
 # 分库分表说明
-#####  当公司业务量急剧上升后，数据库会达到性能瓶颈。对数据库一味纵向升级很难满足业务场景！
-与对单节点数据库升级相比更建议使用分库分表的方案。目前常用的分科分表中间件有MyCat和Sharding-JDBC。
-本项目使用Sharding-JDBC，究其原因是Sharding-JDBC更加轻量，通俗的讲对非DBA人员更加友好：你只需要根据项目
-的选型，选择Sharding-JDBC对应的配置方式（ShardingSphere-JDBC 可以通过 Java，YAML，Spring 命名空间和
-Spring Boot Starter 这 4 种方式进行配置，开发者可根据场景选择适合的配置方式。 详情请参见用户手册：
-https://shardingsphere.apache.org/document/current/cn/quick-start/shardingsphere-jdbc-quick-start/）。
-本项目采用的是Spring boot，所以自然选择的是Spring boot starter的方式进行分库分表的规则配置。
-另外，Sharding-JDBC支持同库分表，但MyCat不支持！Sharding-JDBC使用Java开发的，所以如果项目非java开发，请慎用~~
+#####  当公司业务量急剧上升后，数据库会达到性能瓶颈。对数据库一味纵向升级很难满足业务场景！与对单节点数据库升级相比更建议使用分库分表的方案。
+    目前常用的分科分表中间件有MyCat和Sharding-JDBC。
+    本项目使用Sharding-JDBC，究其原因是Sharding-JDBC更加轻量，通俗的讲对非DBA人员更加友好：你只需要根据项目
+    的选型，选择Sharding-JDBC对应的配置方式（ShardingSphere-JDBC 可以通过 Java，YAML，Spring 命名空间和
+    Spring Boot Starter 这 4 种方式进行配置，开发者可根据场景选择适合的配置方式。 详情请参见用户手册：
+    https://shardingsphere.apache.org/document/current/cn/quick-start/shardingsphere-jdbc-quick-start/）。
+    本项目采用的是Spring boot，所以自然选择的是Spring boot starter的方式进行分库分表的规则配置。
+    另外，Sharding-JDBC支持同库分表，但MyCat不支持！Sharding-JDBC使用Java开发的，所以如果项目非java开发，请慎用~~
 
 # 场景说明（需求）
 #####  对订单表进行分库分表：
