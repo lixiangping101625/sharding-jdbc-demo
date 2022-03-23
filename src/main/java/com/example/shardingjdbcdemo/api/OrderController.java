@@ -19,12 +19,28 @@ public class OrderController {
     @Resource
     private OrderMapper orderMapper;
 
+    /**
+     * 新增订单测试分库分表：
+     *  订单id为奇数时数据落到ds0库，订单id为偶数时数据落到ds1库.
+     *  user_id为奇数时数据落到t_order_0表，user_id为偶数时数据落到t_order_1表.
+     * @param order
+     * @return
+     */
     @PostMapping("/order/add")
     public String add(@RequestBody Order order){
-        orderMapper.insert(order);
-        return "成功";
+        int i = orderMapper.insert(order);
+        if (i > 0) {
+            return "新增成功~";
+        }
+        return "新增失败~";
     }
 
+    /**
+     * 查询订单详情
+     * @param orderId 订单id
+     * @param userId 用户id
+     * @return
+     */
     @GetMapping("/order/{orderId}/{userId}")
     public Order add(@PathVariable("orderId") Long orderId,
                      @PathVariable("userId") Long userId){
