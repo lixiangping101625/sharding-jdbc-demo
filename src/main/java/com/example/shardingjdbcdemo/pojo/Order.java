@@ -1,10 +1,11 @@
 package com.example.shardingjdbcdemo.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.*;
 
-@Table(name = "t_order")
-public class Order {
+@Table(name = "t_order")//分库分表后这里是逻辑表名称
+public class Order implements Serializable {
     private Long id;
 
     @Column(name = "order_amount")
