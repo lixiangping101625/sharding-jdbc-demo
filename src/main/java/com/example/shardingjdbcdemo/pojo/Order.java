@@ -3,9 +3,9 @@ package com.example.shardingjdbcdemo.pojo;
 import java.math.BigDecimal;
 import javax.persistence.*;
 
-@Table(name = "t_order_1")
+@Table(name = "t_order")
 public class Order {
-    private Integer id;
+    private Long id;
 
     @Column(name = "order_amount")
     private BigDecimal orderAmount;
@@ -14,19 +14,19 @@ public class Order {
     private Integer orderStatus;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -61,14 +61,14 @@ public class Order {
     /**
      * @return user_id
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
     /**
      * @param userId
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }

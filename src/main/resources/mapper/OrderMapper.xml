@@ -5,9 +5,9 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="id" jdbcType="BIGINT" property="id" />
     <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
     <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
   </resultMap>
 </mapper>

@@ -19,7 +19,7 @@
         </commentGenerator>
         <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3307/shard-order?serverTimezone=GMT%2B8"
+                        connectionURL="jdbc:mysql://localhost:3307/shard_order?serverTimezone=GMT%2B8"
                         userId="root"
                         password="123456">
         </jdbcConnection>
@@ -61,8 +61,8 @@
             如不需要example类添加下面四个属性
             enableCountByExample="false" enableDeleteByExample="false"
             enableSelectByExample="false" enableUpdateByExample="false"></table>-->
-        <table schema="shard-order"
-               tableName="t_order_1"
+        <table schema="shard_order"
+               tableName="t_order_0"
                domainObjectName="Order"
                enableCountByExample="false"
                enableDeleteByExample="false"
