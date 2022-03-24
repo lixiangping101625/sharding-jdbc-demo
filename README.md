@@ -88,6 +88,13 @@
     # 1、这里t_order_item表是t_order表的绑定表（MyCat称之为子表）
     # 2、根据对t_order表配置的分片（分库分表）规则——id分库、user_id分表。所以t_order_item表分片（分库分表）规则必须完全一致
     #           所以t_order_item表应该有和t_order表相对应的字段：order_id关联t_order的id、 user_id
+    #                    CREATE TABLE `t_order_item_0` (
+    #                      `id` bigint(11) NOT NULL,
+    #                      `order_id` bigint(11) NOT NULL,
+    #                      `item_count` int(11) DEFAULT NULL,
+    #                      `user_id` bigint(20) DEFAULT NULL,
+    #                      PRIMARY KEY (`id`)
+    #                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     # 3、配置绑定：spring.shardingsphere.rules.sharding.binding-tables[0]=t_order,t_order_item
     # 4、绑定表关联查询：使用绑定表进行多表关联查询时，必须使用分片键进行关联，否则会出现笛卡尔积关联或跨库关联，从而影响查询效率。
     #################################################################
