@@ -1,7 +1,10 @@
 package com.example.shardingjdbcdemo.api;
 
+import com.example.shardingjdbcdemo.dao.OrderItemMapper;
 import com.example.shardingjdbcdemo.dao.OrderMapper;
 import com.example.shardingjdbcdemo.pojo.Order;
+import com.example.shardingjdbcdemo.pojo.OrderItem;
+import com.example.shardingjdbcdemo.snowflake.SnowflakeUtils;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
@@ -35,6 +38,7 @@ public class OrderController {
         return "新增失败~";
     }
 
+
     /**
      * 查询订单详情（注意：参与分片（分库分表）的字段必须都参与查询，才能唯一确定一条数据）
      * @param orderId 订单id
@@ -53,6 +57,48 @@ public class OrderController {
             return null;
         }
         return list.get(0);
+    }
+
+
+    /**
+     * 以下是对绑定表的新增和查询测试
+     */
+
+    @Resource
+    private OrderItemMapper itemMapper;
+    /**
+     * 测试绑定表添加：
+     * @param order
+     * @return
+     */
+    @PostMapping("/order/add2")
+    public String add2(@RequestBody Order order){
+        //1、添加order
+        int i = orderMapper.insert(order);
+        //2、创建orderItem
+        OrderItem orderItem = new OrderItem();
+        orderItem.setId(SnowflakeUtils.nextId());
+        orderItem.setOrderId(order.getId());//分片（分库）键
+        orderItem.setItemCount(10);
+        orderItem.setUserId(order.getUserId());//分片（分表）键
+        itemMapper.insert(orderItem);
+        if (i > 0) {
+            return "新增成功~";
+        }
+        return "新增失败~";
+    }
+
+    /**
+     * 查询详情
+     * @param orderId 订单id 分片（分库）键
+     * @param userId userId 分片（分表）键
+     * @return
+     */
+    @GetMapping("/item/{orderId}/{userId}")
+    public List<OrderItem> test(@PathVariable("orderId") Long orderId,
+                                @PathVariable("userId") Long userId){
+        List<OrderItem> orderItems = itemMapper.selectTest(orderId, userId);
+        return orderItems;
     }
 
 }

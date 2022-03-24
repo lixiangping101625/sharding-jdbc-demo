@@ -62,8 +62,8 @@
             enableCountByExample="false" enableDeleteByExample="false"
             enableSelectByExample="false" enableUpdateByExample="false"></table>-->
         <table schema=""
-               tableName="gender_info"
-               domainObjectName="GenderInfo"
+               tableName="t_order_item_0"
+               domainObjectName="OrderItem"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
