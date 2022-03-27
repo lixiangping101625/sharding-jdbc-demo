@@ -87,7 +87,7 @@
     # 指分片规则一致的主表和子表。：
     # 1、这里t_order_item表是t_order表的绑定表（MyCat称之为子表）
     # 2、根据对t_order表配置的分片（分库分表）规则——id分库、user_id分表。所以t_order_item表分片（分库分表）规则必须完全一致
-    #           所以t_order_item表应该有和t_order表相对应的字段：order_id关联t_order的id、 user_id
+    #           所以t_order_item表应该有和t_order表相对应的字段：order_id关联t_order的id、 user_id。在所有分库中创建对应的t_order_item_0、t_order_item_0
     #                    CREATE TABLE `t_order_item_0` (
     #                      `id` bigint(11) NOT NULL,
     #                      `order_id` bigint(11) NOT NULL,
